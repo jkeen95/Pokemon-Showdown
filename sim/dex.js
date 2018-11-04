@@ -829,7 +829,7 @@ class ModdedDex {
 		switch (rule.charAt(0)) {
 		case '-':
 		case '+':
-			if (format && format.team) throw new Error(`We don't currently support bans in generated teams`);
+			//if (format && format.team) throw new Error(`We don't currently support bans in generated teams`);
 			if (rule.slice(1).includes('>') || rule.slice(1).includes('+')) {
 				let buf = rule.slice(1);
 				const gtIndex = buf.lastIndexOf('>');

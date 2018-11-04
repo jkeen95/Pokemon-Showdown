@@ -39,7 +39,6 @@ let Formats = [
 		team: 'random',
 		rated: false,
 		ruleset: ['[Gen 7] Random Battle', 'Mega Clause', 'Z-Crystal Clause', 'Mega Rayquaza Clause'],
-		banlist: ['Uber', 'OU', 'UUBL', 'Power Construct'],
 	},
 	{
 		name: "[Gen 7] OU",
