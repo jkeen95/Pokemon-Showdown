@@ -1977,6 +1977,7 @@ let BattleMovedex = {
 		onTryMove: function (pokemon, target, move) {
 			if (pokemon.hasType('Fire')) return;
 			this.add('-fail', pokemon, 'move: Burn Up');
+			this.attrLastMove('[still]');
 			return null;
 		},
 		self: {
@@ -5048,11 +5049,11 @@ let BattleMovedex = {
 		onModifyMove: function (move) {
 			if (move.sourceEffect === 'waterpledge') {
 				move.type = 'Water';
-				move.hasSTAB = true;
+				move.forceSTAB = true;
 			}
 			if (move.sourceEffect === 'grasspledge') {
 				move.type = 'Fire';
-				move.hasSTAB = true;
+				move.forceSTAB = true;
 			}
 		},
 		onHit: function (target, source, move) {
@@ -5142,6 +5143,7 @@ let BattleMovedex = {
 		onTry: function (pokemon, target) {
 			if (pokemon.activeTurns > 1) {
 				this.add('-fail', pokemon);
+				this.attrLastMove('[still]');
 				this.add('-hint', "First Impression only works on your first turn out.");
 				return null;
 			}
@@ -6466,11 +6468,11 @@ let BattleMovedex = {
 		onModifyMove: function (move) {
 			if (move.sourceEffect === 'waterpledge') {
 				move.type = 'Grass';
-				move.hasSTAB = true;
+				move.forceSTAB = true;
 			}
 			if (move.sourceEffect === 'firepledge') {
 				move.type = 'Fire';
-				move.hasSTAB = true;
+				move.forceSTAB = true;
 			}
 		},
 		onHit: function (target, source, move) {
@@ -15581,7 +15583,10 @@ let BattleMovedex = {
 		priority: 0,
 		flags: {protect: 1, reflectable: 1, mirror: 1, mystery: 1},
 		onHit: function (target) {
-			if (!target.setType('Water')) return false;
+			if (!target.setType('Water')) {
+				this.add('-fail', target);
+				return null;
+			}
 			this.add('-start', target, 'typechange', 'Water');
 		},
 		secondary: null,
@@ -16500,7 +16505,8 @@ let BattleMovedex = {
 				}
 				let damage = this.getDamage(source, target, move);
 				if (!damage && damage !== 0) {
-					this.add('-fail', target);
+					this.add('-fail', source);
+					this.attrLastMove('[still]');
 					return null;
 				}
 				damage = this.runEvent('SubDamage', target, source, move, damage);
@@ -16571,8 +16577,8 @@ let BattleMovedex = {
 		onTry: function (source, target) {
 			let action = this.willMove(target);
 			if (!action || action.choice !== 'move' || (action.move.category === 'Status' && action.move.id !== 'mefirst') || target.volatiles.mustrecharge) {
-				this.attrLastMove('[still]');
 				this.add('-fail', source);
+				this.attrLastMove('[still]');
 				return null;
 			}
 		},
@@ -18416,11 +18422,11 @@ let BattleMovedex = {
 		onModifyMove: function (move) {
 			if (move.sourceEffect === 'grasspledge') {
 				move.type = 'Grass';
-				move.hasSTAB = true;
+				move.forceSTAB = true;
 			}
 			if (move.sourceEffect === 'firepledge') {
 				move.type = 'Water';
-				move.hasSTAB = true;
+				move.forceSTAB = true;
 			}
 		},
 		onHit: function (target, source, move) {

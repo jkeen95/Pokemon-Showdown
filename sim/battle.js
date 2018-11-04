@@ -2287,7 +2287,7 @@ class Battle extends Dex.ModdedDex {
 		baseDamage = this.randomizer(baseDamage);
 
 		// STAB
-		if (move.hasSTAB || (type !== '???' && pokemon.hasType(type))) {
+		if (move.forceSTAB || (type !== '???' && pokemon.hasType(type))) {
 			// The "???" type never gets STAB
 			// Not even if you Roost in Gen 4 and somehow manage to use
 			// Struggle in the same turn.
@@ -2700,7 +2700,6 @@ class Battle extends Dex.ModdedDex {
 	 */
 	prioritizeAction(action, source, sourceEffect) {
 		if (this.event) {
-			if (!source) source = this.event.source;
 			if (!sourceEffect) sourceEffect = this.effect;
 		}
 		for (const [i, curAction] of this.queue.entries()) {
@@ -3213,6 +3212,12 @@ class Battle extends Dex.ModdedDex {
 	 * @param {(string | number | Function | AnyObject)[]} args
 	 */
 	attrLastMove(...args) {
+		if (args.includes('[still]')) {
+			// If no animation plays, the target should never be known
+			let parts = this.log[this.lastMoveLine].split('|');
+			parts[4] = '';
+			this.log[this.lastMoveLine] = parts.join('|');
+		}
 		this.log[this.lastMoveLine] += `|${args.join('|')}`;
 	}
 

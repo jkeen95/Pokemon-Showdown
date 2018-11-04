@@ -299,11 +299,13 @@ let BattleScripts = {
 	tryMoveHit(target, pokemon, move) {
 		this.setActiveMove(move, pokemon, target);
 		move.zBrokeProtect = false;
-		let hitResult = true;
 
-		hitResult = this.singleEvent('PrepareHit', move, {}, target, pokemon, move);
+		let hitResult = this.singleEvent('PrepareHit', move, {}, target, pokemon, move);
 		if (!hitResult) {
-			if (hitResult === false) this.add('-fail', target);
+			if (hitResult === false) {
+				this.add('-fail', pokemon);
+				this.attrLastMove('[still]');
+			}
 			return false;
 		}
 		this.runEvent('PrepareHit', pokemon, target, move);
@@ -319,7 +321,10 @@ let BattleScripts = {
 				hitResult = this.runEvent('TryHitSide', target, pokemon, move);
 			}
 			if (!hitResult) {
-				if (hitResult === false) this.add('-fail', target);
+				if (hitResult === false) {
+					this.add('-fail', pokemon);
+					this.attrLastMove('[still]');
+				}
 				return false;
 			}
 			return this.moveHit(target, pokemon, move);
@@ -344,7 +349,10 @@ let BattleScripts = {
 
 		hitResult = this.runEvent('TryHit', target, pokemon, move);
 		if (!hitResult) {
-			if (hitResult === false) this.add('-fail', target);
+			if (hitResult === false) {
+				this.add('-fail', pokemon);
+				this.attrLastMove('[still]');
+			}
 			return false;
 		}
 
@@ -611,7 +619,10 @@ let BattleScripts = {
 			hitResult = this.singleEvent('TryHit', moveData, {}, target, pokemon, move);
 		}
 		if (!hitResult) {
-			if (hitResult === false) this.add('-fail', target);
+			if (hitResult === false) {
+				this.add('-fail', pokemon);
+				this.attrLastMove('[still]');
+			}
 			return false;
 		}
 
@@ -656,7 +667,8 @@ let BattleScripts = {
 
 			if (damage === false || damage === null) {
 				if (damage === false && !isSecondary && !isSelf) {
-					this.add('-fail', target);
+					this.add('-fail', pokemon);
+					this.attrLastMove('[still]');
 				}
 				this.debug('damage calculation interrupted');
 				return false;
@@ -683,7 +695,8 @@ let BattleScripts = {
 			if (moveData.heal && !target.fainted) {
 				let d = target.heal((this.gen < 5 ? Math.floor : Math.round)(target.maxhp * moveData.heal[0] / moveData.heal[1]));
 				if (!d && d !== 0) {
-					this.add('-fail', target);
+					this.add('-fail', pokemon);
+					this.attrLastMove('[still]');
 					this.debug('heal interrupted');
 					return false;
 				}
@@ -764,7 +777,10 @@ let BattleScripts = {
 
 			if (!didSomething && !moveData.self && !moveData.selfdestruct) {
 				if (!isSelf && !isSecondary) {
-					if (didSomething === false) this.add('-fail', pokemon);
+					if (didSomething === false) {
+						this.add('-fail', pokemon);
+						this.attrLastMove('[still]');
+					}
 				}
 				this.debug('move failed because it did nothing');
 				return false;
@@ -796,7 +812,8 @@ let BattleScripts = {
 			if (hitResult) {
 				target.forceSwitchFlag = true;
 			} else if (hitResult === false && move.category === 'Status') {
-				this.add('-fail', target);
+				this.add('-fail', pokemon);
+				this.attrLastMove('[still]');
 				return false;
 			}
 		}
