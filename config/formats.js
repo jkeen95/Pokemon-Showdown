@@ -33,6 +33,14 @@ let Formats = [
 		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod'],
 	},
 	{
+		name: "[Gen 7] Low Tier Random Battle",
+
+		mod: 'gen7',
+		team: 'random',
+		rated: false,
+		ruleset: ['[Gen 7] Random Battle', 'Mega Clause', 'Z-Crystal Clause', 'Mega Rayquaza Clause'],
+	},
+	{
 		name: "[Gen 7] OU",
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3621042/">OU Metagame Discussion</a>`,
