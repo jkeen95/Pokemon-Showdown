@@ -604,7 +604,7 @@ class RandomTeams extends Dex.ModdedDex {
 		let baseTemplate = template;
 		let species = template.species;
 
-		let noMegaZ = this.format.id === 'gen7lowtierrandombattle';
+		let noMegaZ = this.format.id === 'gen7lowtierrandombattle' || this.format.id === 'gen7lowtiermonotyperandombattle';
 
 		if (!template.exists || ((!isDoubles || !template.randomDoubleBattleMoves) && !template.randomBattleMoves && !template.learnset)) {
 			// GET IT? UNOWN? BECAUSE WE CAN'T TELL WHAT THE POKEMON IS
@@ -1701,12 +1701,12 @@ class RandomTeams extends Dex.ModdedDex {
 		const allowedNFE = ['Chansey', 'Doublade', 'Gligar', 'Porygon2', 'Scyther', 'Togetic'];
 
 		// For Monotype
-		let isMonotype = this.format.id === 'gen7monotyperandombattle';
+		let isMonotype = this.format.id === 'gen7monotyperandombattle' || this.format.id === 'gen7lowtiermonotyperandombattle';
 		let typePool = Object.keys(this.data.TypeChart);
 		let type = this.sample(typePool);
 
 		//For Low Tier
-		let isLowTier = this.format.id === 'gen7lowtierrandombattle';
+		let isLowTier = this.format.id === 'gen7lowtierrandombattle' || this.format.id === 'gen7lowtiermonotyperandombattle';
 		const bannedInLT = ['Buzzwole', 'Xurkitree', 'Nihilego', 'Stakataka', 'Necrozma', 'Zygarde-10%', 'Guzzlord'];
 		if(isLowTier) excludedTiers = ['NFE', 'LC Uber', 'LC', 'Uber', 'OU'];
 
